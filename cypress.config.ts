@@ -2,8 +2,7 @@ import { defineConfig } from 'cypress'
 
 export default defineConfig({
   e2e: {
-    setupNodeEvents(on, config) {
-      const waitForDomInactivity = require('./src/waitForDOMInactivity')
-    }
+    supportFile: 'cypress/support/e2e.ts',
+    chromeWebSecurity: false,
   }
 })

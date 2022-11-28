@@ -1,8 +1,3 @@
-interface WaitForDOMInactivityOptions {
-  minInactivityTimeMs: number;
-  maxInactivityTimeMs: number;
-  intervalMs: number;
-}
 
 export default function waitForDOMInactivity(
   options: WaitForDOMInactivityOptions = {
@@ -27,7 +22,6 @@ export default function waitForDOMInactivity(
 
   function observerCallback() {
     lastMutation = Date.now();
-    console.log("dom mutated");
   }
 
   return cy.then(() => {
@@ -35,8 +29,6 @@ export default function waitForDOMInactivity(
       function checkInactivityTime() {
         const totalWaitingTime = Date.now() - waitTimeStart;
         const timeSinceLastMutation = Date.now() - lastMutation;
-        console.log(`totalWaitingTime: ${totalWaitingTime}`);
-        console.log(`timeSinceLastMutation: ${timeSinceLastMutation}`);
         if (timeSinceLastMutation > options.minInactivityTimeMs) {
           console.log("DOM activity is stable.");
           // observer.disconnect();
@@ -59,19 +51,6 @@ export default function waitForDOMInactivity(
       setTimeout(checkInactivityTime, options.intervalMs);
     });
   });
-}
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Cypress {
-    interface Chainable {
-      /**
-       * Waits until the DOM has not been changed. Useful for handling pages
-       * that use deferred hydration as in PageSlot.
-       */
-      waitForDOMInactivity(options?: WaitForDOMInactivityOptions): Cypress.Chainable;
-    }
-  }
 }
 
 Cypress.Commands.add(
