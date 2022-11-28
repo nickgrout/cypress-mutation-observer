@@ -4,7 +4,12 @@ const USER_AGENT =
 
 describe("verify waitForDOMInactivity", () => {
   it("does not throw error", () => {
-    cy.visit(SLOW_ASYNC_SITE).waitForDOMInactivity();
+    cy.visit(SLOW_ASYNC_SITE, {
+      headers: {
+        accept: "application/json, text/plain, */*",
+        "user-agent": "axios/0.27.2",
+      },
+    }).waitForDOMInactivity();
   });
   it("waits for DOM to stop mutating", () => {
     // without waiting
@@ -43,6 +48,8 @@ describe("verify waitForDOMInactivity", () => {
 
     cy.get("@timeWithoutWait").then((time: unknown) => cy.log(String(time)));
     cy.get("@timeWithWait").then((time: unknown) => cy.log(String(time)));
-    cy.get("@timeWithoutWait").then(timeWithoutWait => cy.get('@timeWithWait').should('be.greaterThan', timeWithoutWait));
+    cy.get("@timeWithoutWait").then((timeWithoutWait) =>
+      cy.get("@timeWithWait").should("be.greaterThan", timeWithoutWait)
+    );
   });
 });
