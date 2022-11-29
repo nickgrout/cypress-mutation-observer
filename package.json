@@ -1,8 +1,8 @@
 {
   "name": "cypress-mutation-observer",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Mutation observer API library for cypress",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "repository": "https://github.com/nickgrout/cypress-mutation-observer.git",
   "author": "Nicholas Grout <nick.grout@airbnb.com>",
   "license": "MIT",
@@ -12,6 +12,8 @@
   },
   "scripts": {
     "cypress": "cypress",
-    "test": "cypress run"
+    "test": "cypress run",
+    "build": "tsc -b",
+    "prepublish": "tsc"
   }
 }

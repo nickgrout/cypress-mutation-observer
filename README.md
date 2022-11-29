@@ -6,10 +6,23 @@
 
 `cypress-mutation-observer` extends Cypress' cy command.
 
-Add this line to your project's cypress/support/commands.{js,.ts}:
+Add this line to your project's cypress/support/commands.js:
 
 ```js
-import 'cypress-wait-until';
+import 'cypress-mutation-observer';
+```
+
+## Using the package
+
+```ts
+    // basic usage
+    cy.visit(SLOW_ASYNC_SITE).waitForDOMInactivity();
+    // with options
+    cy.visit(SLOW_ASYNC_SITE).waitForDOMInactivity({
+        minInactivityTimeMs: 1000;
+        maxInactivityTimeMs: 10000;
+        intervalMs: 100;
+    })
 ```
 
 ## Background

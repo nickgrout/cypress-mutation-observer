@@ -4,3 +4,4 @@ cypress/fixtures
 cypress/videos
 package-lock.json
 cypress/types/plugin.spec.js
+dist/

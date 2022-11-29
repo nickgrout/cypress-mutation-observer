@@ -38,6 +38,7 @@ describe("verify waitForDOMInactivity", () => {
           "user-agent": "axios/0.27.2",
         },
       })
+      .waitForDOMInactivity()
       .getCurrentTimeMs()
       .then((endTime) => {
         return cy
