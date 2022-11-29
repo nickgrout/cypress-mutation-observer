@@ -31,7 +31,6 @@ export default function waitForDOMInactivity(
         const timeSinceLastMutation = Date.now() - lastMutation;
         if (timeSinceLastMutation > options.minInactivityTimeMs) {
           console.log("DOM activity is stable.");
-          // observer.disconnect();
           Cypress.log({
             name: "waitForDOMInactivity",
             message: `DOM took ${totalWaitingTime} to stop mutating`,

@@ -15,4 +15,11 @@ declare namespace Cypress {
       options?: WaitForDOMInactivityOptions
     ): Cypress.Chainable;
   }
+
+  interface Actions {
+    (action: 'mutationObserver:before:create', fn: (mutationObserver: MutationObserver) => void): Cypress
+    (action: 'mutationObserver:after:create', fn: (mutationObserver: MutationObserver) => void): Cypress
+    (action: 'mutationObserver:before:unload', fn: (mutationObserver: MutationObserver) => void): Cypress
+    (action: 'mutationObserver:mutate', fn: (mutationRecords: MutationRecord[], mutationObserver: MutationObserver) => void): Cypress
+  }
 }
