@@ -10,12 +10,12 @@ const MIN_UPDATE_INTERVAL = 50; // min time since the last mutation required to 
 
 function mutationObserverCallback(records: MutationRecord[]) {
   if (
-    this.lastMutation === undefined || 
+    this.lastMutation === undefined ||
     Date.now() - this.lastMutation > MIN_UPDATE_INTERVAL
   ) {
     this.lastMutation = Date.now();
     console.log(`document mutated: ${this.lastMutation}`);
-    const recordsClone: MutationRecord[] = records.map(record => ({
+    const recordsClone: MutationRecord[] = records.map((record) => ({
       addedNodes: record.addedNodes,
       attributeName: record.attributeName,
       attributeNamespace: record.attributeNamespace,
@@ -25,12 +25,12 @@ function mutationObserverCallback(records: MutationRecord[]) {
       removedNodes: record.removedNodes,
       target: record.target,
       type: record.type,
-    }))
+    }));
     cy.emit("mutationObserver:mutate", records);
   }
 }
 
-export function windowLoad(win: Cypress.AUTWindow) {
+export default function windowLoad(win: Cypress.AUTWindow) {
   const mutationObserver = new MutationObserver(mutationObserverCallback);
   mutationObserver.observe(win.document.body, {
     ...defaultMutationObserverConfig,

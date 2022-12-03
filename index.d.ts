@@ -6,7 +6,7 @@ interface WaitForDOMInactivityOptions {
 
 declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-  interface Chainable<Subject = any> {
+  interface Chainable {
     /**
      * Waits until the DOM has not been changed. Useful for handling pages
      * that use deferred hydration as in PageSlot.
