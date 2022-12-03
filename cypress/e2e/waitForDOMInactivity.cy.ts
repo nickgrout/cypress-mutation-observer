@@ -1,26 +1,14 @@
-const SLOW_ASYNC_SITE = "https://www.airbnb.com/";
-const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36";
+import {ASYNC_SITE} from  '../support/constants'
 
 describe("verify waitForDOMInactivity", () => {
   it("does not throw error", () => {
-    cy.visit(SLOW_ASYNC_SITE, {
-      headers: {
-        accept: "application/json, text/plain, */*",
-        "user-agent": "axios/0.27.2",
-      },
-    }).waitForDOMInactivity();
+    cy.visitWithAutomationHeaders(ASYNC_SITE).waitForDOMInactivity();
   });
   it("waits for DOM to stop mutating", () => {
     // without waiting
     cy.getCurrentTimeMs()
       .as("startTimeWithoutWait")
-      .visit(SLOW_ASYNC_SITE, {
-        headers: {
-          accept: "application/json, text/plain, */*",
-          "user-agent": "axios/0.27.2",
-        },
-      })
+      .visitWithAutomationHeaders(ASYNC_SITE)
       .getCurrentTimeMs()
       .then((endTime) => {
         return cy
@@ -32,12 +20,7 @@ describe("verify waitForDOMInactivity", () => {
     // With waiting
     cy.getCurrentTimeMs()
       .as("startTimeWithWait")
-      .visit(SLOW_ASYNC_SITE, {
-        headers: {
-          accept: "application/json, text/plain, */*",
-          "user-agent": "axios/0.27.2",
-        },
-      })
+      .visit(ASYNC_SITE)
       .waitForDOMInactivity()
       .getCurrentTimeMs()
       .then((endTime) => {
