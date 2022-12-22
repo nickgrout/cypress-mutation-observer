@@ -18,24 +18,27 @@ declare global {
        */
       visitWithAutomationHeaders(
         url: string,
-        headers?: {[key: string]: string},
+        headers?: { [key: string]: string }
       ): Chainable<AUTWindow>;
     }
   }
 }
 
-Cypress.Commands.add("visitWithAutomationHeaders", (url: string, headers?: {[key: string]: string}) => {
-  const defaultHeaders = {
-    accept: "application/json, text/plain, */*",
-    "user-agent": "axios/0.27.2",
-  };
-  return cy.visit(url, {
-    headers: {
-      ...defaultHeaders,
-      ...(headers || {}),
-    },
-  });
-});
+Cypress.Commands.add(
+  "visitWithAutomationHeaders",
+  (url: string, headers?: { [key: string]: string }) => {
+    const defaultHeaders = {
+      accept: "application/json, text/plain, */*",
+      "user-agent": "axios/0.27.2",
+    };
+    return cy.visit(url, {
+      headers: {
+        ...defaultHeaders,
+        ...(headers || {}),
+      },
+    });
+  }
+);
 
 Cypress.Commands.add("getCurrentTimeMs", () => {
   const dateNow = Date.now();

@@ -1,45 +1,42 @@
-const defaultMutationObserverConfig: MutationObserverInit = {
-  attributes: true,
-  characterData: true,
-  characterDataOldValue: true,
-  childList: true,
-  subtree: true,
-};
-
-const MIN_UPDATE_INTERVAL = 50; // min time since the last mutation required to have passed before the lastMutation can be updated, in ms
+import {
+  DEFAULT_MUTATION_OBSERVER_CONFIG,
+  MUTATION_OBSERVER_EVENT_NAMES,
+  MIN_UPDATE_INTERVAL,
+} from "./constants";
 
 function mutationObserverCallback(records: MutationRecord[]) {
+  // throttle the number of mutation events/sec
   if (
-    this.lastMutation === undefined ||
+    !this.lastMutation ||
     Date.now() - this.lastMutation > MIN_UPDATE_INTERVAL
   ) {
     this.lastMutation = Date.now();
-    console.log(`document mutated: ${this.lastMutation}`);
-    const recordsClone: MutationRecord[] = records.map((record) => ({
-      addedNodes: record.addedNodes,
-      attributeName: record.attributeName,
-      attributeNamespace: record.attributeNamespace,
-      nextSibling: record.nextSibling,
-      oldValue: record.oldValue,
-      previousSibling: record.previousSibling,
-      removedNodes: record.removedNodes,
-      target: record.target,
-      type: record.type,
-    }));
-    cy.emit("mutationObserver:mutate", records);
+    cy.emit(MUTATION_OBSERVER_EVENT_NAMES.mutate, records);
   }
 }
 
-export default function windowLoad(win: Cypress.AUTWindow) {
-  const mutationObserver = new MutationObserver(mutationObserverCallback);
-  mutationObserver.observe(win.document.body, {
-    ...defaultMutationObserverConfig,
-    ...Cypress.config().mutationObserverConfig,
-  });
-  win.document.mutationObserverContainer = {
-    mutationObserver,
+/**
+ * Initialize a new mutation observer on the current window document
+ * @param win
+ */
+export default function initializeMutationObserver(win: Cypress.AUTWindow) {
+  const container: MutationObserverContainer = {
     lastMutation: 0,
+    mutationObserver: null,
   };
+  win.document.mutationObserverContainer = container;
+
+  const mutationObserver = new MutationObserver(
+    mutationObserverCallback.bind(container)
+  );
+
+  const config = {
+    ...DEFAULT_MUTATION_OBSERVER_CONFIG,
+    ...Cypress.config().mutationObserverConfig,
+  };
+  mutationObserver.observe(win.document.body, config);
+
+  container.mutationObserver = mutationObserver;
 }
 
-Cypress.on("window:load", windowLoad);
+Cypress.on("window:load", initializeMutationObserver);
