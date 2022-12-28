@@ -1,2 +1,3 @@
 import waitForDOMInactivity from "./waitForDOMInactivity";
-export { waitForDOMInactivity };
+import mutationObserverEvent from "./mutationObserverEvent";
+export { waitForDOMInactivity, mutationObserverEvent };

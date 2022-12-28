@@ -1,13 +1,17 @@
 {
   "name": "cypress-mutation-observer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Mutation observer API library for cypress",
   "main": "dist/src/index.js",
   "repository": "https://github.com/nickgrout/cypress-mutation-observer.git",
   "author": "Nicholas Grout <nick.grout@airbnb.com>",
   "license": "MIT",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
     "cypress": "^11.2.0",
+    "eslint": "^8.29.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "typescript": "^4.9.3"
   },
   "scripts": {
